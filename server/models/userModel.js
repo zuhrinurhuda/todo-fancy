@@ -7,6 +7,14 @@ const userSchema = new Schema({
   name: String,
   first_name: String,
   last_name: String,
+  username: {
+    type: String,
+    default: null
+  },
+  password: {
+    type: String,
+    default: null
+  },
   email: String,
   gender: {
     type: String,
