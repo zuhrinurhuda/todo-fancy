@@ -8,7 +8,7 @@ const create = (req, res) => {
     tags: req.body.tags,
     attachments: req.body.attachments
   })
-  
+
   task.save()
   .then(result => res.send(result))
   .catch(err => res.status(500).send(err))
