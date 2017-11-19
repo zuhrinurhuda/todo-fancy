@@ -1,9 +1,11 @@
 const User = require('../models/userModel')
 const ObjectId = require('mongodb').ObjectId
-const bcrypt = require('../helpers/bcrypt')
+const passHash = require('../helpers/passHash')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 const create = (req, res) => {
-  bcrypt(req.body.first_name, encryptedPass => {
+  passHash(req.body.first_name, encryptedPass => {
     let user = new User({
       name: req.body.name,
       first_name: req.body.first_name,
@@ -12,7 +14,8 @@ const create = (req, res) => {
       password: encryptedPass,
       email: req.body.email,
       gender: req.body.gender,
-      photo_profile: req.body.photo_profile
+      photo_profile: req.body.photo_profile,
+      isAdmin: req.body.isAdmin
     })
 
     user.save()
@@ -32,7 +35,7 @@ const update = (req, res) => {
 
   User.findById(id)
   .then(user => {
-    bcrypt(user.password, encryptedPass => {
+    passHash(user.password, encryptedPass => {
       user.name = req.body.name || user.name
       user.first_name = req.body.first_name || user.first_name
       user.last_name = req.body.last_name || user.last_name
@@ -41,6 +44,7 @@ const update = (req, res) => {
       user.email = req.body.email || user.email
       user.gender = req.body.gender || user.gender
       user.photo_profile = req.body.photo_profile || user.photo_profile
+      user.isAdmin = req.body.isAdmin || user.isAdmin
 
       user.save()
       .then(result => res.send(result))
@@ -58,9 +62,37 @@ const remove = (req, res) => {
   .catch(err => res.status(500).send(err))
 }
 
+const login = (req, res) => {
+  User.findOne({username: req.body.username})
+  .then(user => {
+    console.log(user);
+    bcrypt.compare(req.body.password, user.password)
+    .then((success) => {
+      let payload = {
+        id: user.id,
+        email: user.email,
+        isLogin: true,
+        isAdmin: user.isAdmin
+      }
+
+      jwt.sign(payload, 'hacktiv8', {expiresIn: '1h'}, (err, token) => {
+        console.log(token);
+        if(err) res.status(500).send(err)
+        else res.send({
+          msg: 'Login success',
+          token: token
+        })
+      })
+    })
+    .catch(err => res.status(500).send(err))
+  })
+  .catch(err => res.status(500).send(err))
+}
+
 module.exports = {
   create,
   getAll,
   update,
-  remove
+  remove,
+  login
 };

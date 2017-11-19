@@ -20,7 +20,11 @@ const userSchema = new Schema({
     type: String,
     enum: ['male', 'female']
   },
-  photo_profile: String
+  photo_profile: String,
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const User = mongoose.model('User', userSchema)

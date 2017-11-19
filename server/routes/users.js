@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const users = require('../controllers/userControllers')
+const checkAuth = require('../middleware/checkAuth')
 
-router.post('/', users.create)
-router.get('/', users.getAll)
-router.put('/:id', users.update)
-router.delete('/:id', users.remove)
+router.post('/', checkAuth.isLogin, checkAuth.isAdmin, users.create)
+router.get('/', checkAuth.isLogin, checkAuth.isAdmin, users.getAll)
+router.put('/:id', checkAuth.isLogin, checkAuth.isAdmin, users.update)
+router.delete('/:id', checkAuth.isLogin, checkAuth.isAdmin, users.remove)
 
 module.exports = router
