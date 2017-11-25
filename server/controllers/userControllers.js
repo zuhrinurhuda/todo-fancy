@@ -5,22 +5,33 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 const create = (req, res) => {
-  passHash(req.body.first_name, encryptedPass => {
-    let user = new User({
-      name: req.body.name,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      username: req.body.first_name,
-      password: encryptedPass,
-      email: req.body.email,
-      gender: req.body.gender,
-      photo_profile: req.body.photo_profile,
-      isAdmin: req.body.isAdmin
-    })
+  console.log(req.body.userID);
+  User.findOne({userID: req.body.userID})
+  .then(user => {
+    if(user) {
 
-    user.save()
-    .then(result => res.send(result))
-    .catch(err => res.status(500).send(err))
+    } else {
+      passHash(req.body.password, encryptedPass => {
+        let user = new User({
+          name: req.body.name,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          username: req.body.username,
+          password: encryptedPass,
+          email: req.body.email,
+          gender: req.body.gender,
+          photo_profile: req.body.photo_profile,
+          isAdmin: req.body.isAdmin
+        })
+      
+        user.save()
+        .then(result => res.send(result))
+        .catch(err => res.status(500).send(err))
+      })
+    }
+  })
+  .catch(err => {
+    res.status(500).send(err)
   })
 }
 
@@ -67,7 +78,7 @@ const login = (req, res) => {
   .then(user => {
     console.log(user);
     bcrypt.compare(req.body.password, user.password)
-    .then((success) => {
+    .then(success => {
       let payload = {
         id: user.id,
         email: user.email,

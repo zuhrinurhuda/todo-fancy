@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/todo')
 const Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId
 
 const userSchema = new Schema({
+  userID: String,
   name: String,
   first_name: String,
   last_name: String,
