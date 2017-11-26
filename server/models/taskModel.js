@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/todo')
 const Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId
 
