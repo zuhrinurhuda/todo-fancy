@@ -33,13 +33,15 @@ window.fbAsyncInit = function() {
 
 function FBLogin() {
   FB.login(function(response) {
-    console.log('fblogin response ',response)
+    // console.log('fblogin response ',response)
     if (response.authResponse) {
       localStorage.setItem('fbaccesstoken', response.authResponse.accessToken)
-      axios.post('http://localhost:3000/users', response.authResponse)
+      axios.post('http://localhost:3000/users',
+        response.authResponse
+      )
       .then(response => {
         // console.log(response);
-        location.reload();
+        window.location.reload();
       })
       .catch(err => console.log(error))
     } else {
