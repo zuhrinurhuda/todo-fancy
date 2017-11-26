@@ -1,7 +1,5 @@
 // require libraries
 const ObjectId = require('mongodb').ObjectId
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const FB = require('fb');
 const fb = new FB.Facebook({version: 'v2.8'});
 
@@ -9,24 +7,31 @@ const fb = new FB.Facebook({version: 'v2.8'});
 const User = require('../models/userModel')
 
 // require helpers
-const passHash = require('../helpers/passHash')
+const bcrypt = require('../helpers/bcrypt')
+const jwt = require('../helpers/jwt')
 
 // controllers
 const create = (req, res) => {
-  // console.log(req.body);
   if(req.body.accessToken) {
+    // create account from facebook data
     FB.api('/me', {fields: ['id', 'name', 'first_name', 'last_name', 'gender', 'picture', 'email']}, function (res) {
       if(!res || res.error) {
         console.log(!res ? 'error occurred' : res.error)
         return;
       } else {
-        // console.log(res)
         User.findOne({username: res.first_name.toLowerCase()})
         .then(user => {
           if(user) {
-            // Jika user sudah terdaftar kembalikan jwt-nya
+            // Jika user sudah terdaftar berikan token jwt-nya
+            jwt(user)
+            .then(token => {
+              // console.log({token: token});
+              res.send({token: token})
+            })
+            .catch(err => console.log(err))
           } else {
-            passHash(res.last_name.toLowerCase(), encryptedPass => {
+            bcrypt.encrypt(res.last_name.toLowerCase())
+            .then(encryptedPass => {
               let user = new User({
                 name: res.name,
                 first_name: res.first_name,
@@ -41,13 +46,16 @@ const create = (req, res) => {
               .then(result => console.log(result))
               .catch(err => console.log(err))
             })
+            .catch(err => console.log(err))
           }
         })
         .catch(err => console.log(err))
       }
     })
   } else {
-    passHash(req.body.password, encryptedPass => {
+    // manual create account
+    bcrypt.encrypt(req.body.password)
+    .then(encryptedPass => {
       let user = new User({
         name: req.body.name,
         first_name: req.body.first_name,
@@ -62,6 +70,7 @@ const create = (req, res) => {
       .then(result => res.send(result))
       .catch(err => res.status(500).send(err))
     })
+    .catch(err => res.status(500).send(err))
   }
 }
 
@@ -106,25 +115,15 @@ const remove = (req, res) => {
 const login = (req, res) => {
   User.findOne({username: req.body.username})
   .then(user => {
-    console.log(user);
-    bcrypt.compare(req.body.password, user.password)
+    bcrypt.decrypt(req.body.password, user.password)
     .then(success => {
       if(success) {
-        let payload = {
-          id: user.id,
-          email: user.email,
-          isLogin: true,
-          isAdmin: user.isAdmin
-        }
-
-        jwt.sign(payload, 'hacktiv8', {expiresIn: '1h'}, (err, token) => {
-          console.log(token);
-          if(err) res.status(500).send(err)
-          else res.send({
-            msg: 'Login success',
-            token: token
-          })
+        jwt(user)
+        .then(token => {
+          console.log({token: token});
+          res.send({token: token})
         })
+        .catch(err => console.log(err))
       } else {
         res.send('Login Failed! Incorrect username or password')
       }

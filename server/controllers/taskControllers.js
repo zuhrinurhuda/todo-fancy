@@ -1,12 +1,17 @@
-const Task = require('../models/taskModel')
+// require libraries
 const ObjectId = require('mongodb').ObjectId
 
+// require model
+const Task = require('../models/taskModel')
+
+// controllers
 const create = (req, res) => {
   let task = new Task({
-    task : req.body.task,
+    user: ObjectId(req.body.userId),
+    task: req.body.task,
     description: req.body.description,
     tags: req.body.tags,
-    attachments: req.body.attachments
+    // attachments: req.body.attachments
   })
 
   task.save()
@@ -15,8 +20,18 @@ const create = (req, res) => {
 }
 
 const getAll = (req, res) => {
-  Task.find()
+  Task.find() //.populate('user')
   .then(tasks => res.send(tasks))
+  .catch(err => res.status(500).send(err))
+}
+
+const getByUserId = (req, res) => {
+  let user = {user: ObjectId(req.params.userId)}
+
+  Task.find(user) //.populate('user')
+  .then(tasks => {
+    res.send(tasks)
+  })
   .catch(err => res.status(500).send(err))
 }
 
@@ -49,6 +64,7 @@ const remove = (req, res) => {
 module.exports = {
   create,
   getAll,
+  getByUserId,
   updateTask,
   remove
 }
