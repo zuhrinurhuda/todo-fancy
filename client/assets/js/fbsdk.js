@@ -34,18 +34,16 @@ window.fbAsyncInit = function() {
 function FBLogin() {
   FB.login(function(response) {
     // console.log('fblogin response ',response)
-    if (response.authResponse) {
+    if(response.authResponse) {
       localStorage.setItem('fbaccesstoken', response.authResponse.accessToken)
-      axios.post('http://localhost:3000/users',
-        response.authResponse
-      )
+      axios.post('http://localhost:3000/users', response.authResponse)
       .then(response => {
-        // console.log(response);
-        window.location.reload();
+        console.log(response);
+        location.reload()
       })
       .catch(err => console.log(error))
     } else {
-      console.log('User cancelled login or did not fully authorize.');
+      console.log('User cancelled login or did not fully authorize.')
     }
-  }, {scope: 'public_profile,email'}); // ,publish_actions,user_posts
+  }, {scope: 'public_profile,email'})
 }

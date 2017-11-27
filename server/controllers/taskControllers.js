@@ -45,6 +45,7 @@ const updateTask = (req, res) => {
     dataTask.tags = req.body.tags || dataTask.tags
     dataTask.comments = req.body.comments || dataTask.comments
     dataTask.updateAt = new Date()
+    dataTask.complete = req.body.complete
 
     dataTask.save()
     .then(result => res.send(result))
