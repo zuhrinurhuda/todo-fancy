@@ -7,7 +7,7 @@ new Vue({
       username: '',
       password: ''
     },
-    todoList: [],
+    tasks: [],
   },
   methods: {
     loginModal() {
@@ -26,12 +26,15 @@ new Vue({
       localStorage.removeItem('fbaccesstoken');
       location.reload();
     },
+    completed(payload) {
+      console.log(payload.id);
+    }
   },
   created: function() {
     axios.get('http://localhost:3000/tasks/5a1a18541b2c980b06a5f65c')
     .then(response => {
-      this.todoList = response.data
-      console.log(this.todoList);
+      this.tasks = response.data
+      console.log(this.tasks);
     })
     .catch(err => console.log(error))
   }

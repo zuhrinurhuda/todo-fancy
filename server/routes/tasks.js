@@ -6,6 +6,7 @@ router.post('/', tasks.create) //checkAuth.isLogin, checkAuth.isAdmin,
 router.get('/', tasks.getAll) //checkAuth.isLogin, checkAuth.isAdmin,
 router.get('/:userId', tasks.getByUserId)
 router.put('/:id', tasks.updateTask) //checkAuth.isLogin, checkAuth.isAuthUser,
+router.put('/:id/complete', tasks.completeTask)
 router.delete('/:id', tasks.remove) //checkAuth.isLogin, checkAuth.isAuthUser,
 
 

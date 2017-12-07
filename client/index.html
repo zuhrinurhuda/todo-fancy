@@ -67,7 +67,7 @@
               </button>
             </div>
           </div>
-          <todo-list v-for="(todo, index) in todoList" :key="index" :todo="todo"></todo-list>
+          <todo-list v-for="(task, index) in tasks" :key="index" :task="task" @task-action="completed"></todo-list>
         </div>
       </main>
 

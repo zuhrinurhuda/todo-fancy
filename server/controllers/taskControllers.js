@@ -54,6 +54,28 @@ const updateTask = (req, res) => {
   .catch(err => res.status(500).send(err))
 }
 
+const completeTask = (req, res) => {
+  let id = {_id: ObjectId(req.params.id)}
+
+  Task.findById(id)
+  .then(dataTask => {
+    if(dataTask.complete) {
+      dataTask.complete = false
+      dataTask.completeAt = null
+      dataTask.updateAt = new Date()
+    } else {
+      dataTask.complete = true
+      dataTask.completeAt = new Date()
+      dataTask.updateAt = new Date()
+    }
+
+    dataTask.save()
+    .then(result => res.send(result))
+    .catch(err => res.status(500).send(err))
+  })
+  .catch(err => res.status(500).send(err))
+}
+
 const remove = (req, res) => {
   let id = {_id: ObjectId(req.params.id)}
 
@@ -67,5 +89,6 @@ module.exports = {
   getAll,
   getByUserId,
   updateTask,
+  completeTask,
   remove
 }

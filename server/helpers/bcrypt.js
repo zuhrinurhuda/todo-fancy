@@ -6,8 +6,7 @@ const encrypt = password => {
       bcrypt.hash(password, salt, function(err, hash) {
         if(err) {
           reject(err)
-        }
-        else {
+        } else {
           password = hash
           resolve(password)
         }
@@ -21,8 +20,7 @@ const decrypt = (passwordInput, passwordHash) => {
     bcrypt.compare(passwordInput, passwordHash, function(err, match) {
       if(err) {
         reject(err)
-      }
-      else {
+      } else {
         resolve(match)
       }
     })
