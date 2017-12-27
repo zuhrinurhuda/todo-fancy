@@ -1,11 +1,9 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/todo')
-const Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId
+const Schema = mongoose.Schema
 
 const taskSchema = new Schema({
   user: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   task: String,
@@ -44,5 +42,4 @@ const taskSchema = new Schema({
   }
 });
 
-const Task = mongoose.model('Task', taskSchema)
-module.exports = Task
+module.exports = mongoose.model('Task', taskSchema)

@@ -1,10 +1,19 @@
+// require library
 const router = require('express').Router()
+
+// require controller
 const tasks = require('../controllers/taskControllers')
 
+// create
 router.post('/', tasks.create)
-router.get('/', tasks.getAll)
-router.put('/:id', tasks.updateTask)
-router.delete('/:id', tasks.remove)
 
+// read
+router.get('/', tasks.getAll)
+
+// update
+router.put('/:id', tasks.updateTask)
+
+// delete
+router.delete('/:id', tasks.remove)
 
 module.exports = router

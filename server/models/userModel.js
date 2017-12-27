@@ -1,19 +1,26 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/todo')
-const Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   name: String,
-  first_name: String,
-  last_name: String,
-  email: String,
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
   gender: {
     type: String,
     enum: ['male', 'female']
   },
-  photo_profile: String
-});
+  picture: String,
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  updatedAt: {
+    type: Date,
+    default: null
+  }
+})
 
-const User = mongoose.model('User', userSchema)
-module.exports = User
+module.exports = mongoose.model('User', userSchema)

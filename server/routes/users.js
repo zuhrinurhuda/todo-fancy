@@ -1,9 +1,19 @@
+// require library
 const router = require('express').Router()
-const users = require('../controllers/userControllers')
 
-router.post('/', users.create)
-router.get('/', users.getAll)
-router.put('/:id', users.update)
-router.delete('/:id', users.remove)
+// require controller
+const userController = require('../controllers/userController')
+
+// create
+router.post('/', userController.create)
+
+// read
+router.get('/', userController.findAll)
+
+// update
+router.put('/:id', userController.update)
+
+// delete
+router.delete('/:id', userController.delete)
 
 module.exports = router
