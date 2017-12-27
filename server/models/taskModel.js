@@ -1,3 +1,4 @@
+// require library
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -7,20 +8,8 @@ const taskSchema = new Schema({
     ref: 'User'
   },
   task: String,
-  subtasks: [{
-    type: String,
-    default: []
-  }],
   description: String,
   tags: [{
-    type: String,
-    default: []
-  }],
-  attachments: [{
-    type: String,
-    default: []
-  }],
-  comments: [{
     type: String,
     default: []
   }],
@@ -28,15 +17,11 @@ const taskSchema = new Schema({
     type: Boolean,
     default: false
   },
-  completeAt: {
+  completedAt: {
     type: Date,
     default: null
   },
-  createAt: {
-    type: Date,
-    default: Date.now
-  },
-  updateAt: {
+  updatedAt: {
     type: Date,
     default: null
   }
