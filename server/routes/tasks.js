@@ -1,13 +1,20 @@
+// require library
 const router = require('express').Router()
+
+// require controller
 const tasks = require('../controllers/taskControllers')
 const checkAuth = require('../middleware/checkAuth')
 
-router.post('/', tasks.create) //checkAuth.isLogin, checkAuth.isAdmin,
-router.get('/', tasks.getAll) //checkAuth.isLogin, checkAuth.isAdmin,
-router.get('/:userId', tasks.getByUserId)
-router.put('/:id', tasks.updateTask) //checkAuth.isLogin, checkAuth.isAuthUser,
-router.put('/:id/complete', tasks.completeTask)
-router.delete('/:id', tasks.remove) //checkAuth.isLogin, checkAuth.isAuthUser,
+// create
+router.post('/', tasks.create)
 
+// read
+router.get('/', tasks.getAll)
+
+// update
+router.put('/:id', tasks.updateTask)
+
+// delete
+router.delete('/:id', tasks.remove)
 
 module.exports = router
