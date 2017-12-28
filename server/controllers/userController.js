@@ -1,28 +1,66 @@
+// require library
+const FB = require('fb')
+
 // require model
 const User = require('../models/userModel')
 
+// require helpers
+const generateToken = require('../helpers/generateToken')
+
 class UserController {
-  static create (req, res) {
-    let newUser = new User({
-      name: req.body.name,
-      email: req.body.email,
-      gender: req.body.gender,
-      picture: req.body.photo_profile
+  static login (req, res) {
+    FB.api('/me', { fields: ['id', 'name', 'email', 'gender', 'picture'] }, function (response) {
+      if (!response || response.error) {
+        console.log(!response ? 'error occurred' : response.error)
+        return
+      } else {
+        // console.log('ini response --> ', response)
+        User.findOne({ email: response.email })
+        .then(user => {
+          if (user) {
+            // Jika account sudah ada
+            generateToken(user)
+            .then(token => res.status(200).json({
+              message: 'Log in success',
+              accesstoken: token
+            }))
+            .catch(err => res.status(500).json({
+              message: 'Log in failed',
+              error: err
+            }))
+          } else {
+            // Jika account belum ada
+            let newUser = new User({
+              name: response.name,
+              email: response.email,
+              gender: response.gender,
+              picture: response.picture.data.url
+            })
+
+            newUser.save()
+            .then(newUser => {
+              generateToken(newUser)
+              .then(token => res.status(200).json({
+                message: 'Log in success',
+                accesstoken: token
+              }))
+              .catch(err => res.status(500).json({
+                message: 'Log in failed',
+                error: err
+              }))
+            })
+            .catch(err => res.status(500).send(err))
+          }
+        })
+      }
     })
-  
-    newUser.save()
-    .then(newUser => res.status(200).json({
-      message: 'Succes create new user',
-      data: newUser
-    }))
-    .catch(err => res.status(500).send(err))
   }
   
-  static findAll (req, res) {
-    User.find()
-    .then(users => res.status(200).json({
-      message: 'Succes find all users',
-      data: users
+  static findById (req, res) {
+    User.findById(req.decoded._id)
+    .then(user => res.status(200).json({
+      message: 'Success find user',
+      userData: user
     }))
     .catch(err => res.status(500).send(err))
   }
@@ -37,8 +75,8 @@ class UserController {
   
       user.save()
       .then(newUserData => res.status(200).json({
-        message: 'Succes update user data',
-        data: newUserData
+        message: 'Success update user data',
+        userData: newUserData
       }))
       .catch(err => res.status(500).send(err))
     })
@@ -48,8 +86,8 @@ class UserController {
   static delete (req, res) {
     User.findByIdAndRemove(req.params.id)
     .then(deletedUser => res.status(200).json({
-      message: 'Succes delete user',
-      data: deletedUser
+      message: 'Success delete user',
+      userData: deletedUser
     }))
     .catch(err => res.status(500).send(err))
   }

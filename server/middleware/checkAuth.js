@@ -1,35 +1,24 @@
 const jwt = require('jsonwebtoken')
 
-const isLogin = (req, res, next) => {
-  jwt.verify(req.headers.token, 'hacktiv8', function(err, decoded) {
-    if(err) {
-      res.status(500).send(err)
-    }
-    else {
-      req.verifyUser = decoded
+class CheckAuth {
+  static isLogin (req, res, next) {
+    jwt.verify(req.headers.accesstoken, process.env.JWT_SECRET_KEY, function (err, decoded) {
+      if (!err) {
+        req.decoded = decoded
+        next()
+      } else {
+        res.status(403).send(err)
+      }
+    })
+  }
+
+  static isVerifyUser (req, res, next) {
+    if (req.decoded.isAdmin || req.decoded._id === req.params.id) {
       next()
+    } else {
+      res.status(403).send('Only admin or verify user can access')
     }
-  });
-}
-
-const isAdmin = (req, res, next) => {
-  if(req.verifyUser.isAdmin) {
-    next()
-  } else {
-    res.send('only Admin can access')
   }
 }
 
-const isAuthUser = (req, res, next) => {
-  if(req.verifyUser.isAdmin || req.verifyUser.id == req.params.id) {
-    next()
-  } else {
-    res.send('only Admin or Authenticate User can access')
-  }
-}
-
-module.exports = {
-  isLogin,
-  isAdmin,
-  isAuthUser
-};
+module.exports = CheckAuth
