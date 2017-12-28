@@ -1,10 +1,9 @@
-const router = require('express').Router();
-const users = require('../controllers/userControllers')
-const checkAuth = require('../middleware/checkAuth')
+// require library
+const router = require('express').Router()
 
+// Home page
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send('Hello World')
 })
-router.post('/login', users.login)
 
-module.exports = router;
+module.exports = router

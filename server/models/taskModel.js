@@ -1,27 +1,15 @@
+// require library
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId
+const Schema = mongoose.Schema
 
 const taskSchema = new Schema({
   user: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   task: String,
-  subtasks: [{
-    type: String,
-    default: []
-  }],
   description: String,
   tags: [{
-    type: String,
-    default: []
-  }],
-  attachments: [{
-    type: String,
-    default: []
-  }],
-  comments: [{
     type: String,
     default: []
   }],
@@ -29,19 +17,14 @@ const taskSchema = new Schema({
     type: Boolean,
     default: false
   },
-  completeAt: {
+  completedAt: {
     type: Date,
     default: null
   },
-  createAt: {
-    type: Date,
-    default: Date.now
-  },
-  updateAt: {
+  updatedAt: {
     type: Date,
     default: null
   }
 });
 
-const Task = mongoose.model('Task', taskSchema)
-module.exports = Task
+module.exports = mongoose.model('Task', taskSchema)
