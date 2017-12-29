@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import IndexPage from '@/components/IndexPage'
+import MainComponent from '@/components/MainComponent'
 
 Vue.use(Router)
 
@@ -9,7 +10,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: IndexPage
+      component: IndexPage,
+      children: [
+        {
+          path: '',
+          name: 'Home',
+          component: MainComponent
+        }
+      ]
     }
   ]
 })
