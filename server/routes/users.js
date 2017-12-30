@@ -1,16 +1,23 @@
-// require libraries
+// require library
 const router = require('express').Router()
-const users = require('../controllers/userControllers')
 
 // require middleware
+const setAccessToken = require('../middleware/setAccessToken')
 const checkAuth = require('../middleware/checkAuth')
-const setAccessToken = require('../middleware/checkToken')
 
-// website routes
-router.post('/', setAccessToken, users.create)
-router.post('/login', users.login)
-router.get('/', users.getAll) //checkAuth.isLogin, checkAuth.isAdmin,
-router.put('/:id', users.update) //checkAuth.isLogin, checkAuth.isAdmin,
-router.delete('/:id', users.remove) //checkAuth.isLogin, checkAuth.isAdmin,
+// require controller
+const userController = require('../controllers/userController')
+
+// create
+router.post('/login', setAccessToken, userController.login)
+
+// read
+router.get('/', checkAuth.isLogin, userController.findById)
+
+// update
+router.put('/:id', userController.update)
+
+// delete
+router.delete('/:id', userController.delete)
 
 module.exports = router

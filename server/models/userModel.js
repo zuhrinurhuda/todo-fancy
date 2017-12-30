@@ -1,40 +1,28 @@
+// require library
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   userID: Schema.Types.ObjectId,
   name: String,
-  first_name: String,
-  last_name: String,
-  username: {
+  email: {
     type: String,
-    require: true,
-    unique: true
+    unique: true,
+    required: true
   },
-  password: String,
-  email: String,
   gender: {
     type: String,
     enum: ['male', 'female']
   },
-  picture: {
-    type: String,
-    default: null
-  },
+  picture: String,
   isAdmin: {
     type: Boolean,
     default: false
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updateAt: {
+  updatedAt: {
     type: Date,
     default: null
   }
-});
+})
 
-const User = mongoose.model('User', userSchema)
-module.exports = User
+module.exports = mongoose.model('User', userSchema)
