@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import IndexPage from '@/components/IndexPage'
-import MainComponent from '@/components/MainComponent'
+import TodoComponent from '@/components/TodoComponent'
 
 Vue.use(Router)
 
@@ -15,7 +15,7 @@ export default new Router({
         {
           path: '',
           name: 'Home',
-          component: MainComponent
+          component: TodoComponent
         }
       ]
     }

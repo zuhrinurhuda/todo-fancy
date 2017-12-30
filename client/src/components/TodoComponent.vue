@@ -1,5 +1,5 @@
 <template>
-  <main class="ui center aligned container">
+  <main class="ui container">
     <div class="ui equal width celled stackable grid">
       <section class="sixteen wide column">
         <h2 class="ui header">Hi, Zuhri.</h2>
@@ -21,22 +21,40 @@
             <div class="results"></div>
           </div>
         </div>
-        <div class="column">
-          <button class="ui right labeled icon button">
+        <div class="left aligned column">
+          <button class="ui right labeled icon button" @click="addTaskModal">
             <i class="right plus icon"></i>
             Add Task
           </button>
         </div>
       </div>
-      <!-- <todo-list></todo-list> -->
+      <todo-list v-for="(task, index) in tasks" :key="index" :task="task"></todo-list>
     </div>
   </main>
 </template>
 
 <script>
-export default {
-
-}
+  /* global $ */
+  import { mapActions, mapGetters } from 'vuex'
+  import TodoList from '@/components/TodoList'
+  export default {
+    name: 'TodoComponent',
+    components: {
+      TodoList
+    },
+    computed: {
+      ...mapGetters(['tasks'])
+    },
+    methods: {
+      ...mapActions(['getTasks']),
+      addTaskModal: function () {
+        $('.ui.small.modal').modal('show')
+      }
+    },
+    created: function () {
+      this.getTasks()
+    }
+  }
 </script>
 
 <style>

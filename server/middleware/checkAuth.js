@@ -13,7 +13,11 @@ class CheckAuth {
   }
 
   static isVerifyUser (req, res, next) {
-    if (req.decoded.isAdmin || req.decoded._id === req.params.id) {
+    console.log('headers', req.headers.user)
+    console.log('params', req.params.id)
+    console.log('body', req.body.user)
+    console.log('decoded', req.decoded._id)
+    if (req.decoded.isAdmin || req.decoded._id === req.headers.user) {
       next()
     } else {
       res.status(403).send('Only admin or verify user can access')

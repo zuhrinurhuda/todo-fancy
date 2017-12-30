@@ -3,7 +3,6 @@
     <nav class="ui container">
       <a href="" class="item"><i class="dashboard icon"></i>Dashboard</a>
       <a href="" class="item"><i class="tasks icon"></i>My Tasks</a>
-      <a href="" class="item"><i class="history icon"></i>History</a>
       <a href="" class="item"><i class="archive icon"></i>Archive</a>
       <div class="right item">
           <a class="ui facebook button" @click="login" v-if="!isLogin">
