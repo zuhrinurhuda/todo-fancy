@@ -1,13 +1,13 @@
 <template>
   <main class="ui container">
     <div class="ui equal width celled stackable grid">
-      <section class="sixteen wide column">
-        <h2 class="ui header">Hi, Zuhri.</h2>
+      <section class="center aligned sixteen wide column">
+        <h2 class="ui header">Hi, {{ userProfile.name }}.</h2>
         <p>What is your main focus for today?</p>
       </section>
       <div class="row">
-        <div class="column">
-          <button class="ui labeled icon button">
+        <div class="center aligned column">
+          <button class="ui fluid yellow labeled icon button">
             <i class="filter icon"></i>
             Filter
           </button>
@@ -21,8 +21,8 @@
             <div class="results"></div>
           </div>
         </div>
-        <div class="left aligned column">
-          <button class="ui right labeled icon button" @click="addTaskModal">
+        <div class="center aligned column">
+          <button class="ui fluid green right labeled icon button" @click="addTaskModal">
             <i class="right plus icon"></i>
             Add Task
           </button>
@@ -43,7 +43,10 @@
       TodoList
     },
     computed: {
-      ...mapGetters(['tasks'])
+      ...mapGetters([
+        'tasks',
+        'userProfile'
+      ])
     },
     methods: {
       ...mapActions(['getTasks']),

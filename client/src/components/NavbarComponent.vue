@@ -1,23 +1,23 @@
 <template>
   <header class="ui attached stackable menu">
     <nav class="ui container">
-      <a href="" class="item"><i class="dashboard icon"></i>Dashboard</a>
-      <a href="" class="item"><i class="tasks icon"></i>My Tasks</a>
-      <a href="" class="item"><i class="archive icon"></i>Archive</a>
+      <router-link to="/" class="item"><i class="dashboard icon"></i>Dashboard</router-link>
+      <router-link to="/tasks" class="item"><i class="tasks icon"></i>My Tasks</router-link>
+      <router-link to="/archieve" class="item"><i class="archive icon"></i>Archive</router-link>
       <div class="right item">
-          <a class="ui facebook button" @click="login" v-if="!isLogin">
-            <i class="facebook icon"></i>
-            Log in with Facebook
+        <a class="ui facebook button" @click="login" v-if="!isLogin">
+          <i class="facebook icon"></i>
+          Log in with Facebook
+        </a>
+        <a class="ui top right pointing dropdown" v-else>
+          <img class="ui avatar image" :src="userProfile.picture">
+          {{ userProfile.name }}
+          <i class="dropdown icon"></i>
+          <a class="menu">
+            <a class="item"><i class="edit icon"></i> Edit Profile</a>
+            <a class="item" @click="logout"><i class="sign out icon"></i> Log out</a>
           </a>
-          <a class="ui top right pointing dropdown" v-else>
-            <img class="ui avatar image" :src="userProfile.picture">
-            {{ userProfile.name }}
-            <i class="dropdown icon"></i>
-            <a class="menu">
-              <a class="item"><i class="edit icon"></i> Edit Profile</a>
-              <a class="item" @click="logout"><i class="sign out icon"></i> Log out</a>
-            </a>
-          </a>
+        </a>
       </div>
     </nav>
   </header>
@@ -49,6 +49,7 @@
               localStorage.setItem('accesstoken', data.accesstoken)
               this.isLogin = true
               this.getUserProfile()
+              this.$router.push('/tasks')
             })
             .catch(err => console.log(err))
           } else {
@@ -67,6 +68,7 @@
       logout: function () {
         localStorage.removeItem('accesstoken')
         this.isLogin = false
+        this.$router.push('/')
       }
     },
     created: function () {

@@ -11,12 +11,12 @@ class CheckAuth {
       }
     })
   }
-
+  
   static isVerifyUser (req, res, next) {
-    console.log('headers', req.headers.user)
-    console.log('params', req.params.id)
-    console.log('body', req.body.user)
-    console.log('decoded', req.decoded._id)
+    // console.log('headers', req.headers.user)
+    // console.log('params', req.params.id)
+    // console.log('body', req.body.user)
+    // console.log('decoded', req.decoded._id)
     if (req.decoded.isAdmin || req.decoded._id === req.headers.user) {
       next()
     } else {
