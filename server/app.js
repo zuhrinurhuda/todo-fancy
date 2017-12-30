@@ -5,6 +5,7 @@ const path = require('path')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 // set up mongoose
 mongoose.connect(`mongodb://zuhri:${ process.env.MONGO_ATLAS }@cluster0-shard-00-00-67zih.mongodb.net:27017,cluster0-shard-00-01-67zih.mongodb.net:27017,cluster0-shard-00-02-67zih.mongodb.net:27017/todo?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin`, { useMongoClient: true })
@@ -23,6 +24,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(cors())
 
 // website routes
 app.use('/', index)
