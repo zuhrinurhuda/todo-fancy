@@ -9,6 +9,7 @@ const generateToken = require('../helpers/generateToken')
 
 class UserController {
   static login (req, res) {
+    console.log('test')
     FB.api('/me', { fields: ['id', 'name', 'email', 'gender', 'picture'] }, function (response) {
       if (!response || response.error) {
         console.log(!response ? 'error occurred' : response.error)

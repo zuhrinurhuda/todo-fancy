@@ -26,7 +26,7 @@
       <div class="ui black deny button">
         Cancel
       </div>
-      <div class="ui positive button" @click="submitTask(newTask)">
+      <div class="ui positive button" @click="submitTask">
         Submit
       </div>
     </div>
@@ -40,16 +40,22 @@
     data: function () {
       return {
         newTask: {
-          name: null,
-          tags: null,
-          description: null
+          name: '',
+          tags: '',
+          description: ''
         }
       }
     },
     methods: {
       ...mapActions(['addNewTask']),
-      submitTask: function (newTask) {
-        this.addNewTask(newTask)
+      submitTask: function () {
+        this.addNewTask(this.newTask)
+        .then(() => this.resetModal())
+      },
+      resetModal: function () {
+        this.newTask.name = ''
+        this.newTask.tags = ''
+        this.newTask.description = ''
       }
     }
   }

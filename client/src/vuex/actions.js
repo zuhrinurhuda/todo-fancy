@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'http://localhost:3000/api'
+  // baseURL: 'http://localhost:3000/api'
+  baseURL: 'http://35.187.249.166/api'
 })
 
 const actions = {
@@ -24,13 +25,16 @@ const actions = {
     .catch(err => console.log(err))
   },
   addNewTask: ({ commit }, payload) => {
-    http.post('/tasks', payload, {
-      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    return new Promise((resolve, reject) => {
+      http.post('/tasks', payload, {
+        headers: { accesstoken: localStorage.getItem('accesstoken') }
+      })
+      .then(({ data }) => {
+        commit('setNewTask', data.task)
+        resolve(data)
+      })
+      .catch(err => console.log(err))
     })
-    .then(({ data }) => {
-      commit('setNewTask', data.task)
-    })
-    .catch(err => console.log(err))
   },
   changeCompleteStatus: ({ commit }, payload) => {
     http.put(`/tasks/${payload._id}/changestatus`, payload, {

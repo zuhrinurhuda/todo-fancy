@@ -6,7 +6,7 @@
         <p>What is your main focus for today?</p>
       </section>
       <div class="row">
-        <div class="center aligned column">
+        <!-- <div class="center aligned column">
           <button class="ui fluid yellow labeled icon button">
             <i class="filter icon"></i>
             Filter
@@ -20,9 +20,9 @@
             </div>
             <div class="results"></div>
           </div>
-        </div>
-        <div class="center aligned column">
-          <button class="ui fluid green right labeled icon button" @click="addTaskModal">
+        </div> -->
+        <div class="right aligned column">
+          <button class="ui green right labeled icon button" @click="addTaskModal">
             <i class="right plus icon"></i>
             Add Task
           </button>
