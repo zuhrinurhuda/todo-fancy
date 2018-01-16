@@ -19,8 +19,8 @@
       <a class="ui red label" v-for="(tag, index) in task.tags" :key="index">{{ tag }}</a>
     </div>
     <div class="middle aligned center aligned two wide column">
-      <i class="grey edit icon"></i>
-      <i class="grey folder open outline icon"></i>
+      <!-- <i class="grey edit icon"></i>
+      <i class="grey folder open outline icon"></i> -->
       <i class="grey trash outline icon" @click="submitDeleteTask(task)"></i>
     </div>
   </div>
