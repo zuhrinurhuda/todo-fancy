@@ -1,6 +1,6 @@
 <template>
   <footer class="ui center aligned container">
-    <div class="ui celled three column grid">
+    <!-- <div class="ui celled three column grid">
       <section class="column">
         <h4>Footer 1</h4>
         <figure>
@@ -19,7 +19,7 @@
         <h4>Footer 3</h4>
         <p></p>
       </section>
-    </div>
+    </div> -->
   </footer>
 </template>
 

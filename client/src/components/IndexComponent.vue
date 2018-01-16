@@ -1,8 +1,8 @@
 <template>
   <main class="ui container">
-    <div class="ui equal width celled stackable grid">
+    <!-- <div class="ui equal width celled stackable grid">
       hello world
-    </div>
+    </div> -->
   </main>
 </template>
 

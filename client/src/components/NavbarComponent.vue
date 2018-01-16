@@ -3,7 +3,7 @@
     <nav class="ui container">
       <router-link to="/" class="item"><i class="dashboard icon"></i>Dashboard</router-link>
       <router-link to="/tasks" class="item"><i class="tasks icon"></i>My Tasks</router-link>
-      <router-link to="/archieve" class="item"><i class="archive icon"></i>Archive</router-link>
+      <!-- <router-link to="/archieve" class="item"><i class="archive icon"></i>Archive</router-link> -->
       <div class="right item">
         <a class="ui facebook button" @click="login" v-if="!isLogin">
           <i class="facebook icon"></i>
@@ -14,7 +14,7 @@
           {{ userProfile.name }}
           <i class="dropdown icon"></i>
           <a class="menu">
-            <a class="item"><i class="edit icon"></i> Edit Profile</a>
+            <!-- <a class="item"><i class="edit icon"></i> Edit Profile</a> -->
             <a class="item" @click="logout"><i class="sign out icon"></i> Log out</a>
           </a>
         </a>
@@ -41,7 +41,7 @@
       login: function () {
         window.FB.login(response => {
           if (response.status === 'connected') {
-            console.log('Success login ', response)
+            // console.log('Success login ', response)
             this.$http.post('/users/login', {}, {
               headers: { accesstoken: response.authResponse.accessToken }
             })
@@ -74,7 +74,7 @@
     created: function () {
       window.fbAsyncInit = function () {
         window.FB.init({
-          appId: '2060415780639578',
+          appId: '187996071785325',
           cookie: true,
           xfbml: true,
           version: 'v2.11'
